@@ -16,7 +16,7 @@ The package currently supports these semantic segmentation models:
 ## Getting Started
 To run the repo you need to: 
 1. modify the `config/default_config.yaml` to suit your project's parameters.
-2. Follow the step-by-step guide in `notebooks/main.ipynb` to execute the workflow.
+2. Follow the step-by-step guide in `notebooks/train_prediction_main.ipynb` to execute the workflow.
 
 ## Dataset Preparation
 
