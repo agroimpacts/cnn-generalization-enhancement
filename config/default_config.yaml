@@ -1,0 +1,174 @@
+### data loading
+
+source_dir: /home/airg/skhallaghi/data
+#source_dir: /home/airg/data
+
+
+# csv filename that contains the list of directories for img, lbl chips and other metadata. 
+train_csv_name: catalog_gh_cg_tz_ng_v1.csv
+#train_csv_name: catalogs/labels/croplands/catalog_train_v03.csv
+
+# General Directory to store output from any experiment.
+working_dir: /home/airg/skhallaghi/working_dir4
+
+# specific output directory for the current experiment to save the results of training, validation and checkpoints.
+out_dir: experiment4
+
+# directory to the folder to save the log files
+log_dir: /home/airg/skhallaghi/working_dir4/logs 
+
+# Size of chips that is not buffered. (i.e., the size of labels)
+patch_size: 200
+
+# buffer to add when getting chips, so the chips fed into models are in size of (dsize + 2*buffer) x (dsize + 2*buffer)
+one_side_buffer : 12
+
+# buffer applied on tiles when creating composites. Default is 11.
+tile_buffer: 11
+
+# Column names in the catalog referring to image paths
+img_path_cols: ['dir_os']
+#img_path_cols: ['dir_imgs']
+
+norm_stats_type: local_per_tile
+
+clip_val: 0
+
+global_stats:
+  min: [1.0, 1.0, 1.0, 483.0]
+  max: [4018.0, 3334.0, 4859.0, 6790.0]
+  mean: [907.3507152580246, 1065.9232632502121, 1194.3739334843492, 2594.2471613949106]
+  std: [76.45986710256858, 84.70157580656776, 118.96245259283691, 180.11158876764674]
+
+nodata: [0, 65535]
+
+# Column name in the catalog referring to label paths.
+label_path_col: dir_label
+
+# Group indices of labels to load for train phase, where each group corresponds to a specific level of label quality
+train_group: [0, 2, 3, 4]
+
+# Group indices of labels to load for train phase, where each group corresponds to a specific level of label quality
+validate_group: [3, 4]
+
+transformations: ["vflip", "hflip", "dflip", "rotate", "resize", "br_gamma_corection", "br_jitter", "br_additive", "br_contrast"]
+#transformations: ["vflip", "hflip", "rotate", "resize","shift_brightness"]
+
+rotationDegree: [-90, 90]
+
+bshift_band_grouping: [4]
+
+train_batch: 32
+
+validate_batch: 2
+
+n_classes: 3
+
+channels: 4
+
+stage_width: [64, 128, 256, 512, 1024, 2048]
+
+block_num: [2, 2, 2, 2, 2, 2]
+
+train_dropout_rate: 0.2
+
+# can be either 'traditional' or 'spatial'
+dropout_type: spatial
+
+use_skipAtt: False
+
+gpu_devices: [0]
+
+class_mapping:
+  0: non-crop
+  1: Field interior
+  2: Field boundary
+
+#params_init_path: /home/airg/skhallaghi/working_dir2/vgg_nesterov_tfl_mm_lab_traditional_drpout15_mr_fullAug/unet_att_d_ep120/chkpt/unet_att_d_final_state.pth
+params_init_path: null # path/to/params.pth
+
+freeze_layer_ls: null # or list(range(58))
+
+fitting_prams:
+  weight_decay: 0.005
+  # StepLR & MultiStepLR
+  step_size: 3
+  milestones:
+  - 5
+  - 10
+  - 20
+  - 35
+  - 50
+  - 70
+  - 90
+  gamma: 0.98
+  
+  # ReduceLROnPlateau
+  mode: triangular
+  factor: 0.8
+  patience: 3
+  threshold: 0.0001
+  threshold_mode: rel
+  min_lr: 3.0e-06
+  
+  # PolynomialLR
+  max_decay_steps: 110
+  min_learning_rate: 1.0e-05
+  power: 0.70
+  
+  # CyclicLR
+  base_lr: 3.0e-05
+  max_lr: 0.01
+  step_size_up: 1100
+  mode: triangular
+
+criterion:
+  #name: TverskyFocalLoss
+  #name: TanimotoDualLoss
+  #name: LocallyWeightedTanimotoDualLoss
+  name: LocallyWeightedTverskyFocalLoss
+  #name: LocallyWeightedTverskyFocalCELoss
+  weight:
+    - 0.192553
+    - 0.5023664
+    - 0.3190038
+  ignore_index: -100
+  alpha: 0.65
+  gamma: 0.9
+
+epochs: 120
+
+optimizer: nesterov
+
+learnrate_init: 0.016
+
+LR_policy: PolynomialLR
+
+momentum: 0.95
+
+resume: false
+
+resume_epoch: null
+
+
+# Accuracy assessment
+val_metric_fname: validate_metrics_mm_lab.csv
+
+## predict
+pred_data_dir: /home/airg/skhallaghi/multiyear_pred_data
+pred_csv_name: /home/airg/skhallaghi/prediction_catalog_ghana_multiyrear.csv
+pred_patch_size: 262
+pred_buffer: 157
+pred_composite_buffer: 0
+pred_img_path_cols: ["image_dir"]
+pred_batch: 1
+output_prefix: /home/airg/skhallaghi/working_dir4/pred_results/experiment4
+inference_dropout_rate: 0.1
+num_mc_trials: 30
+shrink_buffer: 0
+hardening_threshold: 70
+filename: ""
+
+    
+  
+  
