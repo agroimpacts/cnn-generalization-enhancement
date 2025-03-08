@@ -1,7 +1,7 @@
 ## Overview
 This repository contains the code used in the following paper:
 
-Khallaghi, S., Abedi, R., Abou Ali, H., Asipunu, M., Alatise, I., Ha, N., Luo, B., Mai, C., Song, L., Wussah, A., Xiong, S., Zhang, Q., Estes, L. (2024). Generalization enhancement strategies to enable cross-year cropland mapping with convolutional neural networks trained using historical samples. ArXiv.
+Khallaghi, S., Abedi, R., Abou Ali, H., Asipunu, M., Alatise, I., Ha, N., Luo, B., Mai, C., Song, L., Wussah, A., Xiong, S., Yao, Y-T., Zhang, Q., Estes, L. (2025). Generalization enhancement strategies to enable cross-year cropland mapping with convolutional neural networks trained using historical samples. Remote Sensing 17:474.
 
 ## Supported Models
 The package currently supports these semantic segmentation models:
@@ -69,7 +69,34 @@ The `deeplearner` package uses csv files to load data. Therefore, two catalogs a
     | 321      | 560      | images/planet/fix/GS/tile539602_736815_736967.tif | images/planet/fix/OS/tile539602_737029_737118.tif | neighbor |
 
 ## Accessing the Dataset
-The training dataset, along with csv catalogs for replicating the results in our paper, is available at [dataset access link].
+The training dataset, along with csv catalogs for replicating the results in our paper, is available on the 
+[Registry of Open Data on AWS](https://registry.opendata.aws/africa-field-boundary-labels/).
+
+The data are in the bucket s3://africa-field-boundary-labels/extra in the us-west-2 region, and are organized as follows:
+
+```
+.
+└── extra/
+    ├── catalog_gh_cg_tz_ng_v1.csv
+    ├── images/
+    │   ├── gs/
+    │   └── os/
+    └── labels/
+```
+
+With a catalog mapping imagery collected in the growing season (gs) and dry season (os) to labels. For this study, the model was trained and validated using dry season imagery only. 
+
+To access the data, use the AWS CLI to download the data to a local directory. We recommend making a new directory called “data” in your home directory, changing into that, and then using the sync function, as follows (note: this assumes a *nix-based terminal.
+
+```
+cd ~
+mkdir data
+cd data
+aws s3 sync s3://africa-field-boundary-labels/extra/ . --dryrun
+aws s3 sync s3://africa-field-boundary-labels/extra/ . 
+```
+
+
 
 
 
