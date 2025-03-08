@@ -1,7 +1,7 @@
 ## Overview
 This repository contains the code used in the following paper:
 
-Khallaghi, S., Abedi, R., Abou Ali, H., Asipunu, M., Alatise, I., Ha, N., Luo, B., Mai, C., Song, L., Wussah, A., Xiong, S., Yao, Y-T., Zhang, Q., Estes, L. (2025). Generalization enhancement strategies to enable cross-year cropland mapping with convolutional neural networks trained using historical samples. Remote Sensing 17:474.
+Khallaghi, S., Abedi, R., Abou Ali, H., Asipunu, M., Alatise, I., Ha, N., Luo, B., Mai, C., Song, L., Wussah, A., Xiong, S., Yao, Y-T., Zhang, Q., Estes, L. (2025). Generalization enhancement strategies to enable cross-year cropland mapping with convolutional neural networks trained using historical samples. [Remote Sensing 17:474](https://www.mdpi.com/2072-4292/17/3/474).
 
 ## Supported Models
 The package currently supports these semantic segmentation models:
@@ -86,7 +86,7 @@ The data are in the bucket s3://africa-field-boundary-labels/extra in the us-wes
 
 With a catalog mapping imagery collected in the growing season (gs) and dry season (os) to labels. For this study, the model was trained and validated using dry season imagery only. 
 
-To access the data, use the AWS CLI to download the data to a local directory. We recommend making a new directory called “data” in your home directory, changing into that, and then using the sync function, as follows (note: this assumes a *nix-based terminal.
+To access the data, use the AWS CLI to download the data to a local directory. We recommend making a new directory called “data” in your home directory, changing into that, and then using the sync function, as follows (note: this assumes a *nix-based terminal).
 
 ```
 cd ~
@@ -96,7 +96,9 @@ aws s3 sync s3://africa-field-boundary-labels/extra/ . --dryrun
 aws s3 sync s3://africa-field-boundary-labels/extra/ . 
 ```
 
+If the second to last line previews a successful download, run the last line, which will download all data on the bucket into your directory.
 
+The AWS S3 console can also be used to download the data.
 
 
 
